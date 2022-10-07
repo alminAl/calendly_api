@@ -1,12 +1,20 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
+const userRoute = require("./routes/userRoutes");
 
 // express app
 const app = express();
 
 // middleware
 app.use(express.json());
+
+app.use((req, res, next) => {
+  console.log(req.path, req.method)
+  next()
+})
+
+app.use("/api/user", userRoute)
 
 // route
 app.get("/", (req, res) => {
@@ -16,6 +24,7 @@ app.get("/", (req, res) => {
 // connect to DB
 mongoose
   .connect(`${process.env.MONGO_DB_URL}`)
+
   .then(() => {
     // listen for request
     app.listen(4000, () => {
