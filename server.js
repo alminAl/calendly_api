@@ -14,7 +14,7 @@ app.use((req, res, next) => {
   next()
 })
 
-app.use("/api/user", userRoute)
+app.use("/api/auth", userRoute)
 
 // route
 app.get("/", (req, res) => {
