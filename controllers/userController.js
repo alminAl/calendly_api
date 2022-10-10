@@ -7,9 +7,9 @@ const createToken = (_id) => {
 };
 
 const signupUser = async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, name } = req.body;
     try {
-        const user = await UserModel.signup(email, password);
+        const user = await UserModel.signup(email, password, name);
         // create a token
         const token = createToken(user._id);
 

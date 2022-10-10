@@ -1,25 +1,27 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
+var cors = require('cors')
+
 const userRoute = require("./routes/userRoutes");
 
 // express app
 const app = express();
+// cors
+app.use(cors())
 
 // middleware
 app.use(express.json());
-
-app.use((req, res, next) => {
-  console.log(req.path, req.method)
-  next()
-})
-
-app.use("/api/auth", userRoute)
 
 // route
 app.get("/", (req, res) => {
   res.status(200).json({ api: "calendly" });
 });
+
+
+app.use("/api/auth", userRoute)
+
+
 
 // connect to DB
 mongoose
