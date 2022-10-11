@@ -18,14 +18,13 @@ const userSchema = new Schema({
     type: String,
     require: true,
   },
-  profile_image : {
+  profile_image: {
     type: String,
-    
   },
-  isAdmin : {
-    type : Boolean,
-    default: false
-  }
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 userSchema.statics.signup = async function (email, password, name) {
@@ -52,13 +51,13 @@ userSchema.statics.login = async function (email, password) {
   }
 
   const user = await this.findOne({ email });
-  
+
   if (!user) {
     throw Error("Invalid action");
   }
 
   const match = await bcrypt.compare(password, user.password);
- 
+
   if (!match) {
     throw Error("Invalid action");
   }

@@ -27,5 +27,5 @@ const userLoginValidation = yup.object({
 
 module.exports = {
   userSignupValidation,
-  userLoginValidation,
+  userLoginValidation
 };
