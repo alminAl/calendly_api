@@ -35,7 +35,33 @@ const loginUser = async (req, res) => {
     }
 };
 
+//Update user
+const updateUser = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const user = await UserModel.findOneAndUpdate(
+            { _id: id },
+            {
+                $set: {
+                    name: req.body?.name,
+                    email: req.body?.email,
+                    password: req.body?.password
+                },
+            },
+            {
+                new: true,
+                upsert: true,
+            }
+        );
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
+
+
 module.exports = {
     signupUser,
-    loginUser
+    loginUser,
+    updateUser
 }
