@@ -1,7 +1,7 @@
 const yup = require("yup");
 
 const scheduleValidation = yup.object({
-  create_by: yup.string().email().required(),
+  // create_by: yup.string().required(),
   title: yup.string().required(),
   description: yup.string().min(5).max(250).required(),
   time: yup.string().required(),
