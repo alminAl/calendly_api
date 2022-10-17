@@ -1,5 +1,6 @@
 const ScheduleModel = require("../models/scheduleModel");
 
+
 // create a schedule
 const createSchedule = async (req, res) => {
   const { title, description, time, meet_channels, link, participant } =
@@ -9,7 +10,7 @@ const createSchedule = async (req, res) => {
     console.log("reqAuthId", user_id);
 
     const schedule = await ScheduleModel.create({
-      //create_by:user_id, //:req.user,
+      create_by:user_id, //:req.user,
       title,
       description,
       time,
@@ -41,9 +42,9 @@ const getSchedules = async (req, res) => {
 
 // get a schedule
 const getSchedule = async (req, res) => {
-  const { _id } = req.params;
+  const { id } = req.params;
   try {
-    const schedule = await ScheduleModel.findById({ _id });
+    const schedule = await ScheduleModel.findById({ _id:id });
     if (!schedule) {
       return res.status(400).json({ error: "Not such a Schedule." });
     } else {
@@ -59,13 +60,12 @@ const getSchedule = async (req, res) => {
 
 // update a schedule
 const updateSchedule = async (req, res) => {
-  const { _id } = req.params;
+  const { id } = req.params;
   try {
     const schedule = await ScheduleModel.findOneAndUpdate(
-      { _id },
+      { _id:id },
       {
         $set: {
-          create_by: req.body?.create_by,
           title: req.body?.title,
           description: req.body?.description,
           time: req.body?.time,
@@ -94,9 +94,9 @@ const updateSchedule = async (req, res) => {
 
 // delete a Schedule
 const deleteSchedule = async (req, res) => {
-  const { _id } = req.params;
+  const { id } = req.params;
   try {
-    const schedule = await ScheduleModel.findOneAndDelete({ _id });
+    const schedule = await ScheduleModel.findOneAndDelete({ _id:id });
     if (!schedule) {
       return res.status(400).json({ error: "Not such a schedule." });
     } else {

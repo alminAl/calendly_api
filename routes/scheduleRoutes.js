@@ -10,39 +10,17 @@ const userRequireAuth = require("../middleware/userRequireAuth");
 const validation = require("../middleware/validationMiddleware");
 const { scheduleValidation } = require("../validations/scheduleValidation");
 
-
 // express router
 const router = express();
-router.use(userRequireAuth)
+router.use(userRequireAuth);
 
-router.post(
-  "/",
-  // userRequireAuth,
-  validation(scheduleValidation),
-  createSchedule
-);
-router.get(
-  "/",
-  // userRequireAuth,
-  getSchedules
-);
-router.get(
-  "/:id",
-  // userRequireAuth,
-  validation(scheduleValidation),
-  getSchedule
-);
-router.put(
-  "/:id",
-  // userRequireAuth,
-  validation(scheduleValidation),
-  updateSchedule
-);
-router.delete(
-  "/:id",
-  // userRequireAuth,
-  validation(scheduleValidation),
-  deleteSchedule
-);
+router.post("/", validation(scheduleValidation), createSchedule);
+router.get("/", getSchedules);
+router.get("/:id", getSchedule);
+router.put("/:id", validation(scheduleValidation), updateSchedule);
+router.delete("/:id", deleteSchedule);
 
 module.exports = router;
+
+
+

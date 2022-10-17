@@ -2,10 +2,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const scheduleSchema = new Schema({
-  // create_by: {
-  //   type: String,
-  //   require: true,
-  // },
+  create_by: {
+    type: String,
+    require: true,
+  },
   title: {
     type: String,
     require: true,
