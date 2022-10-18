@@ -1,19 +1,16 @@
 const ScheduleModel = require("../models/scheduleModel");
 
+
 // create a schedule
 const createSchedule = async (req, res) => {
-  const {
-    create_by,
-    title,
-    description,
-    time,
-    meet_channels,
-    link,
-    participant,
-  } = req.body;
+  const { title, description, time, meet_channels, link, participant } =
+    req.body;
   try {
+    const user_id = req.user;
+    console.log("reqAuthId", user_id);
+
     const schedule = await ScheduleModel.create({
-      create_by,
+      create_by:user_id, //:req.user,
       title,
       description,
       time,
@@ -45,9 +42,9 @@ const getSchedules = async (req, res) => {
 
 // get a schedule
 const getSchedule = async (req, res) => {
-  const { _id } = req.params;
+  const { id } = req.params;
   try {
-    const schedule = await ScheduleModel.findById({ _id });
+    const schedule = await ScheduleModel.findById({ _id:id });
     if (!schedule) {
       return res.status(400).json({ error: "Not such a Schedule." });
     } else {
@@ -66,16 +63,15 @@ const updateSchedule = async (req, res) => {
   const { id } = req.params;
   try {
     const schedule = await ScheduleModel.findOneAndUpdate(
-      { _id: id },
+      { _id:id },
       {
         $set: {
-          create_by: req.body?.create_by,
-          title: req.body?.title_by,
-          description: req.body?.description_by,
-          time: req.body?.time_by,
-          meet: req.body?.meet_by,
-          link: req.body?.link_by,
-          participant: req.body?.participant_by,
+          title: req.body?.title,
+          description: req.body?.description,
+          time: req.body?.time,
+          meet_channels: req.body?.meet_channels,
+          link: req.body?.link,
+          participant: req.body?.participant,
         },
       },
       {
@@ -98,9 +94,9 @@ const updateSchedule = async (req, res) => {
 
 // delete a Schedule
 const deleteSchedule = async (req, res) => {
-  const { _id } = req.params;
+  const { id } = req.params;
   try {
-    const schedule = await ScheduleModel.findOneAndDelete({ _id });
+    const schedule = await ScheduleModel.findOneAndDelete({ _id:id });
     if (!schedule) {
       return res.status(400).json({ error: "Not such a schedule." });
     } else {
