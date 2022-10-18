@@ -59,9 +59,21 @@ const updateUser = async (req, res) => {
     }
 };
 
+//User Profile
+const userProfile = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await UserModel.findById({ _id: id }).select("password").select("name");
+        res.status(200).json({ user, message: "User Profile" });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
+
 
 module.exports = {
     signupUser,
     loginUser,
-    updateUser
+    updateUser,
+    userProfile
 }

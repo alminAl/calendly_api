@@ -5,6 +5,7 @@ var cors = require("cors");
 
 const userRoute = require("./routes/userRoutes");
 const scheduleRoute = require("./routes/scheduleRoutes");
+const userProfileRoutes = require("./routes/userProfileRoutes");
 
 // express app
 const app = express();
@@ -21,6 +22,8 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", userRoute);
 app.use("/api/schedule", scheduleRoute);
+
+app.use("/api/user/profile", userProfileRoutes);
 
 // connect to DB
 mongoose

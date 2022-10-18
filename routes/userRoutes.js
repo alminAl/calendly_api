@@ -1,6 +1,5 @@
 const express = require("express");
-const { signupUser, loginUser, updateUser } = require("../controllers/userController");
-const userRequireAuth = require("../middleware/userRequireAuth");
+const { signupUser, loginUser } = require("../controllers/userController");
 const validation = require("../middleware/validationMiddleware");
 const {
   userSignupValidation,
@@ -15,7 +14,5 @@ const router = express();
 router.post("/signup", validation(userSignupValidation), signupUser);
 router.post("/login", validation(userLoginValidation), loginUser);
 
-// update user
-router.patch("/user/updatedUser/:id", userRequireAuth, updateUser);
 
 module.exports = router;
