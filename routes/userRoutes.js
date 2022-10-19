@@ -12,6 +12,7 @@ const {
 const router = express();
 
 router.post("/signup", validation(userSignupValidation), signupUser);
+
 router.post("/login", validation(userLoginValidation), loginUser);
 
 

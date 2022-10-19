@@ -8,10 +8,12 @@ userProfileRoutes.use(userRequireAuth);
 
 
 // // get user
-userProfileRoutes.get('/:id', userProfile);
+userProfileRoutes.get("/", userProfile);
+
 
 // update user
-userProfileRoutes.patch("/updatedUser/:id", updateUser);
+userProfileRoutes.patch("/", updateUser)
+
 
 // export modules
 module.exports = userProfileRoutes;
