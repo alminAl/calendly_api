@@ -17,7 +17,7 @@ app.use(express.json());
 
 // route
 app.get("/", (req, res) => {
-  res.status(200).json({ api: "calendly" });
+  res.status(200).json({ api: "calendly api 📕" });
 });
 
 app.use("/api/auth", userRoute);

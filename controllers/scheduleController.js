@@ -82,10 +82,7 @@ const updateSchedule = async (req, res) => {
     if (!schedule) {
       return res.status(400).json({ error: "Not such a schedule." });
     } else {
-      res.status(200).json({
-        schedule,
-        message: "Schedule update successfully!",
-      });
+      res.status(200).json(schedule);
     }
   } catch (error) {
     res.status(400).json({ error: error.message });

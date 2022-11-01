@@ -56,7 +56,7 @@ const userProfile = async (req, res) => {
     try {
         const user_id = req.user;
         const user = await UserModel.findById(user_id).select("-password");
-        res.status(200).json({ user, message: "User Profile" });
+        res.status(200).json({ user});
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
@@ -66,12 +66,14 @@ const userProfile = async (req, res) => {
 // update user info
 const updateUser = async (req, res) => {
     const user_id = req.user;
+    const { email, name, profile_image } = req.body;
     try {
         const user = await UserModel.findOneAndUpdate(
             user_id,
             {
                 email,
-                name
+                name,
+                profile_image
             },
             {
                 returnOriginal: false,
