@@ -8,15 +8,38 @@ const createToken = (_id) => {
     return jwt.sign({ _id }, `${process.env.ACCESS_TOKEN_SECRET}`, { expiresIn: "3d" });
 };
 
+// secure password method
+const securePassword = async (password) => {
+    try {
+        const passwordHash = await bcrypt.hash(password, 10);
+        return passwordHash;
+    } catch (error) {
+        res.status(400).send({ error: error.message });
+    }
+};
+
 // signup controller
 const signupUser = async (req, res) => {
-    const { email, password, name } = req.body;
+    const {
+        name,
+        email,
+        password,
+        mobile_number,
+        about,
+        profile_image } = req.body;
     try {
-        const user = await UserModel.signup(email, password, name);
+        const user = await UserModel.signup(
+
+            name,
+            email,
+            password,
+            mobile_number,
+            about,
+            profile_image);
 
         const token = createToken(user._id);
 
-        res.status(200).json({ email, token });
+        res.status(200).json({ name, email, token });
     } catch (error) {
 
         res.status(400).json({ error: error.message });
@@ -55,8 +78,8 @@ const userProfile = async (req, res) => {
 
     try {
         const user_id = req.user;
-        const user = await UserModel.findById(user_id).select("-password");
-        res.status(200).json({ user});
+        const userProfile = await UserModel.findById(user_id).select("-password");
+        res.status(200).json(userProfile);
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
@@ -66,13 +89,17 @@ const userProfile = async (req, res) => {
 // update user info
 const updateUser = async (req, res) => {
     const user_id = req.user;
-    const { email, name, profile_image } = req.body;
+    const { email, name, mobile_number,
+        about, profile_image } = req.body;
     try {
         const user = await UserModel.findOneAndUpdate(
             user_id,
             {
-                email,
+
                 name,
+                email,
+                mobile_number,
+                about,
                 profile_image
             },
             {
@@ -85,9 +112,27 @@ const updateUser = async (req, res) => {
     }
 };
 
+// change password
+const changePassword = async (req, res) => {
+    try {
+        const user_id = req.user;
+        const password = req.body.password;
+
+        const newPassword = await securePassword(password);
+
+        const user = await UserModel.findOneAndUpdate(user_id, {
+            password: newPassword,
+        });
+        res.status(200).json({ message: "Password change successfully" });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
+
 module.exports = {
     signupUser,
     loginUser,
     updateUser,
-    userProfile
+    userProfile,
+    changePassword
 }

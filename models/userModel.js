@@ -18,8 +18,17 @@ const userSchema = new Schema({
     type: String,
     require: true,
   },
+  mobile_number: {
+    type: String,
+    require: true
+  },
+  about: {
+    type: String,
+    require: true
+  },
   profile_image: {
     type: String,
+    require: false
   },
   isAdmin: {
     type: Boolean,
@@ -27,7 +36,13 @@ const userSchema = new Schema({
   },
 });
 
-userSchema.statics.signup = async function (email, password, name) {
+userSchema.statics.signup = async function (
+  email,
+  password,
+  name,
+  mobile_number,
+  about,
+  profile_image) {
   const exists = await this.findOne({ email });
   // validation
   // if (!email || !password) {
@@ -40,7 +55,14 @@ userSchema.statics.signup = async function (email, password, name) {
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
 
-  const user = await this.create({ email, password: hash, name });
+  const user = await this.create({
+    email,
+    password: hash,
+    name,
+    mobile_number,
+    about,
+    profile_image
+  });
 
   return user;
 };
@@ -65,4 +87,4 @@ userSchema.statics.login = async function (email, password) {
   return user;
 };
 
-module.exports = mongoose.model("CalendlyUser", userSchema);
+module.exports = mongoose.model("CalendlyUser1", userSchema);
