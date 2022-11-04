@@ -16,7 +16,7 @@ app.use(cors());
 app.use(express.json());
 
 // route
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
   res.status(200).json({ api: "calendly api 📕" });
 });
 

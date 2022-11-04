@@ -23,18 +23,18 @@ const signupUser = async (req, res) => {
     const {
         name,
         email,
-        password,
         mobile_number,
         about,
+        password,
         profile_image } = req.body;
     try {
         const user = await UserModel.signup(
 
             name,
             email,
-            password,
             mobile_number,
             about,
+            password,
             profile_image);
 
         const token = createToken(user._id);
@@ -93,7 +93,7 @@ const updateUser = async (req, res) => {
         about, profile_image } = req.body;
     try {
         const user = await UserModel.findOneAndUpdate(
-            user_id,
+            { _id: user_id },
             {
 
                 name,

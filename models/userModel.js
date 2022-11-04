@@ -5,19 +5,16 @@ const bcrypt = require("bcrypt");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
+  name: {
+    type: String,
+    require: true,
+  },
   email: {
     type: String,
     require: true,
     unique: true,
   },
-  password: {
-    type: String,
-    require: true,
-  },
-  name: {
-    type: String,
-    require: true,
-  },
+
   mobile_number: {
     type: String,
     require: true
@@ -25,6 +22,10 @@ const userSchema = new Schema({
   about: {
     type: String,
     require: true
+  },
+  password: {
+    type: String,
+    require: true,
   },
   profile_image: {
     type: String,
@@ -37,11 +38,11 @@ const userSchema = new Schema({
 });
 
 userSchema.statics.signup = async function (
-  email,
-  password,
   name,
+  email,
   mobile_number,
   about,
+  password,
   profile_image) {
   const exists = await this.findOne({ email });
   // validation
@@ -56,11 +57,11 @@ userSchema.statics.signup = async function (
   const hash = await bcrypt.hash(password, salt);
 
   const user = await this.create({
-    email,
-    password: hash,
     name,
+    email,
     mobile_number,
     about,
+    password: hash,
     profile_image
   });
 
